@@ -1,5 +1,5 @@
 import sys
-from workflow import Workflow3, web
+from lib.workflow import Workflow3, web
 
 query = sys.argv[1]
 
