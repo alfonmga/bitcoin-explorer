@@ -10,7 +10,7 @@ url_tx = "https://blockstream.info/api/tx/" + query
 url_tip = "https://blockstream.info/api/blocks/tip/height"
 
 # default subtitle text
-url_subtitle = 'Go to Block Explorer and copy to clipboard'
+id_subtitle = 'Go to Block Explorer and copy to clipboard'
 subtitle = 'Copy amount to clipboard'
 
 def get_address():
@@ -29,8 +29,7 @@ def get_address():
   # convert from sats to bitcoin
   bal_in_btc = bal_in_sat * .00000001
 
-  url_subtitle = ''
-
+  #titles
   address_title = 'Address: ' + query
   balance_title = 'Balance: ' + str(bal_in_btc) + 'BTC'
 
@@ -72,26 +71,17 @@ def get_tx():
 
   # alfred item info
   id_title = 'TXID: ' + query
-  id_arg = query
-
   conf_title = 'Confirmations: ' + conf_count
-  conf_arg = conf_count
-
   fee_title = 'Fee: ' + fee + ' BTC'
-  fee_arg = fee
-
   size_title = 'Size: ' + size + 'b'
-  size_arg = size
-
   weight_title = 'Weight: ' + weight + 'wu'
-  weight_arg = weight
 
   tx_info = [
-    {'title': id_title, 'subtitle': url_subtitle, 'arg': id_arg},
-    {'title': conf_title, 'subtitle': subtitle, 'arg': conf_arg},
-    {'title': fee_title, 'subtitle': subtitle, 'arg': fee_arg},
-    {'title': size_title, 'subtitle': subtitle, 'arg': size_arg},
-    {'title': weight_title, 'subtitle': subtitle, 'arg': weight_arg},
+    {'title': id_title, 'subtitle': id_subtitle, 'arg': query},
+    {'title': conf_title, 'subtitle': subtitle, 'arg': conf_count},
+    {'title': fee_title, 'subtitle': subtitle, 'arg': fee},
+    {'title': size_title, 'subtitle': subtitle, 'arg': size},
+    {'title': weight_title, 'subtitle': subtitle, 'arg': weight},
   ]
 
   return tx_info
@@ -102,6 +92,9 @@ def add_item(arr):
                 subtitle=item['subtitle'],
                 arg=item['arg'],
                 valid=True)
+
+  tip = t.json()
+  conf = r.json()
 
 def main(wf):
   # check if query is addr or tx
