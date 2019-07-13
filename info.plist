@@ -82,7 +82,7 @@
 			<key>config</key>
 			<dict>
 				<key>subtext</key>
-				<string>Bitcoin Address Lookup</string>
+				<string>Bitcoin Block Explorer Lookup</string>
 				<key>text</key>
 				<string>Bitcoin Explorer for '{query}'</string>
 			</dict>
