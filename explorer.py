@@ -10,7 +10,7 @@ url_tx = "https://blockstream.info/api/tx/" + query
 url_tip = "https://blockstream.info/api/blocks/tip/height"
 
 # default subtitle text
-id_subtitle = 'Go to Block Explorer and copy to clipboard'
+url_subtitle = 'Copy info to clipboard and go to Block Explorer'
 subtitle = 'Copy amount to clipboard'
 
 def get_address():
@@ -29,13 +29,16 @@ def get_address():
   # convert from sats to bitcoin
   bal_in_btc = bal_in_sat * .00000001
 
+  # convert to string
+  balance = str(bal_in_btc)
+
   #titles
   address_title = 'Address: ' + query
-  balance_title = 'Balance: ' + str(bal_in_btc) + 'BTC'
+  balance_title = 'Balance: ' + balance + 'BTC'
 
   address_info = [
-    {'title': address_title, 'subtitle': address_subtitle},
-    {'title': balance_title, 'subtitle': balance_subtitle}
+    {'title': address_title, 'subtitle': url_subtitle, 'arg': query},
+    {'title': balance_title, 'subtitle': subtitle, 'arg': balance},
   ]
 
   return address_info
@@ -52,8 +55,8 @@ def get_tx():
   t.raise_for_status()
 
   # parse json
-  tx = r.json()
   tip = t.json()
+  tx = r.json()
 
   # extract data
   confirmation = tx['status']
@@ -77,7 +80,7 @@ def get_tx():
   weight_title = 'Weight: ' + weight + 'wu'
 
   tx_info = [
-    {'title': id_title, 'subtitle': id_subtitle, 'arg': query},
+    {'title': id_title, 'subtitle': url_subtitle, 'arg': query},
     {'title': conf_title, 'subtitle': subtitle, 'arg': conf_count},
     {'title': fee_title, 'subtitle': subtitle, 'arg': fee},
     {'title': size_title, 'subtitle': subtitle, 'arg': size},
@@ -92,9 +95,6 @@ def add_item(arr):
                 subtitle=item['subtitle'],
                 arg=item['arg'],
                 valid=True)
-
-  tip = t.json()
-  conf = r.json()
 
 def main(wf):
   # check if query is addr or tx
