@@ -71,7 +71,7 @@ def get_tx():
 
   sat_per_byte = str(tx['fee']/v_size)
   fee_in_btc = tx['fee'] * .00000001
-  format_fee = "{:.7f}".format(float(fee_in_btc))
+  format_fee = "{:.8f}".format(float(fee_in_btc))
   fee = str(format_fee) + ' BTC' + ' ('+ sat_per_byte + ' sat/B)'
 
   # tx confirmation check
