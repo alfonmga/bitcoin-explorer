@@ -60,9 +60,19 @@ def get_tx():
 
   # extract data
   confirmation = tx['status']
-  fee = str(tx['fee'] * .00000001)
   size = str(tx['size'])
   weight = str(tx['weight'])
+
+  # Virtual size (vsize), also called virtual bytes (vbytes),
+  # are an alternative measurement, with one vbyte being equal
+  # to four weight units. That means the maximum block size
+  # measured in vsize is 1 million vbytes.
+  v_size = tx['weight'] / 4
+
+  sat_per_byte = str(tx['fee']/v_size)
+  fee_in_btc = tx['fee'] * .00000001
+  format_fee = "{:.7f}".format(float(fee_in_btc))
+  fee = str(format_fee) + ' BTC' + ' ('+ sat_per_byte + ' sat/B)'
 
   # tx confirmation check
   # Calculate diff between tip and block height of confirmed tx.
@@ -75,7 +85,7 @@ def get_tx():
   # alfred item info
   id_title = 'TXID: ' + query
   conf_title = 'Confirmations: ' + conf_count
-  fee_title = 'Fee: ' + fee + ' BTC'
+  fee_title = 'Fee: ' + fee
   size_title = 'Size: ' + size + 'b'
   weight_title = 'Weight: ' + weight + 'wu'
 
